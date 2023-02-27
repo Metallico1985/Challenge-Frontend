@@ -18,7 +18,7 @@ function Form() {
     const handleTipo = (e) => {setTipo(e.target.value)}
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch('https://crudcrud.com/api/ae948cab3eb04c1c8fb9971e0a20eabd/clientes', {
+        fetch('https://crudcrud.com/api/275d66e87ee043ada9ee7ec8692212c5/clientes', {
         headers: { "Content-Type": "application/json; charset=utf-8" },
         method: 'POST',
         body: JSON.stringify({

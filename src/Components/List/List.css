@@ -1,0 +1,28 @@
+/* .mainLista{
+   
+} */
+.lista{
+    display: grid;
+    grid-template-areas: "nombre apellido rut tipo select borrar";
+    align-items: center;
+    gap: 1rem;
+}
+h3{
+    text-align: center;
+    margin-bottom: 4rem;
+}
+.celda{
+    width: 10rem;
+}
+.nombre{
+    grid-area: nombre;
+}
+.apellido{
+    grid-area: apellido;
+}
+.rut{
+    grid-area: rut;
+}
+.tipo{
+    grid-area: tipo;
+}
