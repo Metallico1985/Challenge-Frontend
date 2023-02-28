@@ -9,10 +9,11 @@ function App() {
   const [flag, setFlag] = useState(null);
   const activar = () => {setFlag(!flag)}
   const [cliente, setCliente] = useState()
+  const endpoint = "https://crudcrud.com/api/cbce1d35babd466593f7f036988a1064"
 
   const agregarCliente = (nuevoCliente) => {
 
-    fetch('https://crudcrud.com/api/e88155fccea248ee99db283446eea593/clientes', {
+    fetch(`${endpoint}/clientes`, {
       headers: { "Content-Type": "application/json; charset=utf-8" },
       method: 'POST',
       body: JSON.stringify({
@@ -31,7 +32,7 @@ function App() {
   const [listaClientes, setListaClientes] = useState([]);
 
   useEffect(() => {
-    fetch('https://crudcrud.com/api/e88155fccea248ee99db283446eea593/clientes', {
+    fetch(`${endpoint}/clientes`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     })
@@ -47,7 +48,7 @@ function App() {
 
   const handleDelete = (id) => {
    
-    fetch(`https://crudcrud.com/api/e88155fccea248ee99db283446eea593/clientes/${id}`, {
+    fetch(`${endpoint}/clientes/${id}`, {
       method: "DELETE",
     })
       .then(response => console.log(response))
