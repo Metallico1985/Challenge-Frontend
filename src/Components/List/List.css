@@ -1,9 +1,18 @@
-/* .mainLista{
-   
-} */
+.encabezados{
+   /* display: flex; */
+   display: grid;
+   grid-template-areas: "nombre apellido telefono rut tipo algo algo";
+   gap: 1rem;
+   border-bottom: 1px solid black;
+   margin-bottom: 2rem;
+   padding-bottom: 1rem;
+}
+.encabezado{
+    width: 8rem;
+}
 .lista{
     display: grid;
-    grid-template-areas: "nombre apellido rut tipo select borrar";
+    grid-template-areas: "nombre apellido telefono rut tipo select borrar";
     align-items: center;
     gap: 1rem;
 }
@@ -12,13 +21,16 @@ h3{
     margin-bottom: 4rem;
 }
 .celda{
-    width: 10rem;
+    width: 13rem;
 }
 .nombre{
     grid-area: nombre;
 }
 .apellido{
     grid-area: apellido;
+}
+.telefono{
+    grid-area: telefono;
 }
 .rut{
     grid-area: rut;

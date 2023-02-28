@@ -1,43 +1,30 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react';
+import React from 'react'
 import './List.css'
 
-function List() {
-
-    const [listaClientes, setListaClientes] = useState([]);
-
-    useEffect(() => {
-        fetch('https://crudcrud.com/api/275d66e87ee043ada9ee7ec8692212c5/clientes', {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                setListaClientes(data)
-            })
-            .catch((error) => {
-                alert(error);
-                
-            });
-    }, [])
+function List(props) {
 
     return (
-        <div className='mainList'>
+        <div className='mainLista'>
             <h3>Lista de clientes</h3>
+            <div className='encabezados'>
+                <div className='encabezado nombres'>Nombre</div>
+                <div className='encabezado apellidos'>Apellido</div>
+                <div className='encabezado apellidos'>Telefono</div>
+                <div className='encabezado ruts'>Rut</div>
+                <div className='encabezado tipos'>Tipo</div>
+            </div>
             <div>
-                {listaClientes?.map((item) => (
-                    <div className='mainLista'>
+                {props.lista?.map((item) => (
                     <div className='lista'>
                         <div className='celda nombre'>{item.nombre}</div>
                         <div className='celda apellido'>{item.apellido}</div>
+                        <div className='celda telefono'>{item.telefono}</div>
                         <div className='celda rut'>{item.rut}</div>
                         <div className='celda tipo'>{item.tipo}</div>
-                        <button>Select</button>
-                        <button>Borrar</button>
-                    </div>
+                        <button id={item._id} onClick={props.enviarItem(item)}>Select</button>
+                        <button onClick={() => props.borrar(item._id)}>Borrar</button>
                     </div>
                 )
-
                 )}
             </div>
 

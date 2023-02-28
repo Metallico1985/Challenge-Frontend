@@ -1,39 +1,31 @@
 import React from 'react'
 import { useState } from 'react'
-import {useNavigate} from 'react-router-dom'
 
-function Form() {
+function Form(props) {
 
     const [nombre, setNombre] = useState("");
     const [apellido, setApellido] = useState("");
     const [telefono, setTelefono] = useState();
     const [rut, setRut] = useState();
     const [tipo, setTipo] = useState();
-
+   
+    const cliente ={
+      nombre:nombre,
+      apellido: apellido,
+      telefono:telefono,
+      rut:rut,
+      tipo:tipo,
+      activo:true
+     }
 
     const handleNombre = (e) => {setNombre(e.target.value)};
     const handleApellido = (e) => {setApellido(e.target.value)}
     const handleRut = (e) => {setRut(e.target.value)}
     const handleTelefono = (e) => {setTelefono(e.target.value)}
     const handleTipo = (e) => {setTipo(e.target.value)}
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        fetch('https://crudcrud.com/api/275d66e87ee043ada9ee7ec8692212c5/clientes', {
-        headers: { "Content-Type": "application/json; charset=utf-8" },
-        method: 'POST',
-        body: JSON.stringify({
-            nombre: nombre.toLowerCase(),
-            apellido: apellido.toLowerCase(),
-            rut: rut,
-            telefono: telefono,
-            tipo:tipo
-        })
-      })
-      .then(response => response.json())
-      .then(data => console.log(data))
-    }
+    const handleSubmit = (e) => {e.preventDefault(); props.agregar(cliente); props.act()}
+
     
-    const navigate = useNavigate();
   return (
     <div className='mainForm'>
     <div className='formContainer'>
@@ -51,7 +43,6 @@ function Form() {
         <button type='submit'>Registrar</button>
       </form>
     </div>
-    <button onClick={()=> navigate( "/listaClientes")}>Ver lista de clientes</button>
     </div>
   )
 }
