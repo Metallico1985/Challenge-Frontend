@@ -5,11 +5,14 @@ import { useState, useEffect } from 'react'
 
 function App() {
 
-  const enviarAlForm =(cli)=>{setCliente(cli)}
-  const [flag, setFlag] = useState(null);
-  const activar = () => {setFlag(!flag)}
-  const [cliente, setCliente] = useState()
-  const endpoint = "https://crudcrud.com/api/cbce1d35babd466593f7f036988a1064"
+  const activar = () => { setActivo(!activo) }
+  const [activo, setActivo] = useState(true)
+  const endpoint = "https://crudcrud.com/api/2680ff2ebdbf46e09f1677a45fdaefc5"
+
+
+  useEffect(() => {
+    listarClientes()
+  }, [activo]);
 
   const agregarCliente = (nuevoCliente) => {
 
@@ -23,15 +26,16 @@ function App() {
         telefono: nuevoCliente.telefono,
         tipo: nuevoCliente.tipo
       })
+
     })
       .then(response => response.json())
-      .then(data => console.log(data))
-
+    activar()
   }
 
   const [listaClientes, setListaClientes] = useState([]);
 
-  useEffect(() => {
+  const listarClientes = () => {
+
     fetch(`${endpoint}/clientes`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -44,21 +48,39 @@ function App() {
         alert(error);
 
       });
-  }, [flag])
+
+  }
 
   const handleDelete = (id) => {
-   
+
     fetch(`${endpoint}/clientes/${id}`, {
       method: "DELETE",
     })
       .then(response => console.log(response))
-      .then(setFlag(!flag))
+      .then(() => setListaClientes(listaClientes.filter(cl => cl._id !== id)))
   }
- 
+
+  const [infoCliente, setInfoCliente] = useState()
+
+  const obtenerInfoCliente = (cli) => {
+
+    fetch(`${endpoint}/clientes/${cli._id}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setInfoCliente(data)
+      })
+      .catch((error) => {
+        alert(error);
+
+      });
+  }
   return (
     <div className='mainApp'>
-      <Form agregar={agregarCliente} act={activar} infoForm={cliente}/>
-      <List lista={listaClientes} borrar={handleDelete} enviarItem={enviarAlForm}/>
+      <Form agregar={agregarCliente} infoForm={infoCliente} />
+      <List lista={listaClientes} borrar={handleDelete} obtenerCliente={obtenerInfoCliente} />
     </div>
   )
 }
