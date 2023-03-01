@@ -1,48 +1,63 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function Form(props) {
 
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
-  const [telefono, setTelefono] = useState();
-  const [rut, setRut] = useState();
-  const [tipo, setTipo] = useState();
+  const [cliente, setCliente] = useState({
+    _id: null,
+    nombre: "",
+    apellido: "",
+    telefono: "",
+    rut: "",
+    tipo: "",
+  })
 
-  const cliente = {
-    nombre: nombre,
-    apellido: apellido,
-    telefono: telefono,
-    rut: rut,
-    tipo: tipo,
-    activo: true
+  useEffect(() => {
+    setCliente(props.infoCliente);
+}, [props.infoCliente])
+
+  // const handleNombre = (e) => { setNombre(e.target.value) };
+  // const handleApellido = (e) => { setApellido(e.target.value) }
+  // const handleRut = (e) => { setRut(e.target.value) }
+  // const handleTelefono = (e) => { setTelefono(e.target.value) }
+  // const handleTipo = (e) => { setTipo(e.target.value) }
+  // const handleSubmit = (e) => { e.preventDefault(); props.agregar(cliente); }
+  // const clienteEditable = props.infoCliente
+  const handleChange = evt => {
+    const name = evt.target.name;
+    const value = evt.target.value;
+    setCliente({
+      ...cliente,
+      [name]: value
+    })
   }
 
-  const handleNombre = (e) => { setNombre(e.target.value) };
-  const handleApellido = (e) => { setApellido(e.target.value) }
-  const handleRut = (e) => { setRut(e.target.value) }
-  const handleTelefono = (e) => { setTelefono(e.target.value) }
-  const handleTipo = (e) => { setTipo(e.target.value) }
-  const handleSubmit = (e) => { e.preventDefault(); props.agregar(cliente); }
-  const clienteEditable = props.infoCliente
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if(cliente._id) {
+      props.handleEditar(cliente, cliente._id)
+    } else {
+      props.agregar(cliente);
+    }
+  }
 
   return (
     <div className='mainForm'>
       <div className='formContainer'>
         <h1>Ingreso Clientes</h1>
         <form onSubmit={handleSubmit} className='formIngreso'>
-          <input defaultValue={props.infoCliente ? clienteEditable.nombre : ""} onChange={()=>handleNombre} type="text" placeholder='Nombre' required/>
-          <input defaultValue={props.infoCliente ? clienteEditable.apellido : ""} onChange={handleApellido} type="text" placeholder='Apellido' required/>
-          <input defaultValue={props.infoCliente ? clienteEditable.rut : ""} onChange={handleRut} type="text" placeholder='Rut' required/>
-          <input defaultValue={props.infoCliente ? clienteEditable.telefono : ""} onChange={handleTelefono} type="text" placeholder='Telefono' required/>
-          <select defaultValue={props.infoCliente ? clienteEditable.tipo : ""} onChange={handleTipo} name='posiciones' >
-            <option disabled selected >Tipo Cliente</option>
+          <input name="nombre" value={cliente.nombre || ''} onChange={handleChange} type="text" placeholder='Nombre' required/>
+          <input name="apellido" value={cliente.apellido || ''} onChange={ handleChange } type="text" placeholder='Apellido' required/>
+          <input name="rut" value={cliente.rut || ''} onChange={handleChange} type="text" placeholder='Rut' required/>
+          <input name="telefono" value={cliente.telefono || ''} onChange={handleChange} type="text" placeholder='Telefono' required/>
+          <select name="tipo" value={cliente.tipo || ''} onChange={handleChange} >
+            <option disabled selected value=''>Tipo Cliente</option>
             <option value="usuario">Usuario</option>
             <option value="empresa">Empresa</option>
           </select>
-          <button type='submit'>Registrar</button>
-          {props.flag?<button type='submit' className='btnEditar' onClick={()=>props.handleEditar(clienteEditable, clienteEditable._id)} >Editar</button>:<></>}
-          
+          {cliente._id
+            ? <button type='submit' className='btnEditar'>Editar</button>
+            : <button type='submit'>Registrar</button>}
         </form>
       </div>
     </div>

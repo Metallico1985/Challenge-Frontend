@@ -5,19 +5,15 @@ import { useState, useEffect } from 'react'
 
 function App() {
 
-  const activar = () => { setActivo(!activo) }
-  const [flag, setFlag] = useState(null)
-  const actFlag =()=>{setFlag(!flag)}
-  const [activo, setActivo] = useState(true)
-  const endpoint = "https://crudcrud.com/api/8b62be2331734712938eab35a1af47b7"
+ 
+  const endpoint = "https://crudcrud.com/api/f9d85e314f2a40b096be7eef079b33c9"
 
 
   useEffect(() => {
     listarClientes()
-  }, [activo]);
+  }, []);
 
   const agregarCliente = (nuevoCliente) => {
-
     fetch(`${endpoint}/clientes`, {
       headers: { "Content-Type": "application/json; charset=utf-8" },
       method: 'POST',
@@ -30,8 +26,8 @@ function App() {
       })
 
     })
-      .then(response => response.json())
-    activar()
+      .then(setInfoCliente({}))
+      .then(() => listarClientes())
   }
 
   const [listaClientes, setListaClientes] = useState([]);
@@ -62,7 +58,7 @@ function App() {
       .then(() => setListaClientes(listaClientes.filter(cl => cl._id !== id)))
   }
 
-  const [infoCliente, setInfoCliente] = useState()
+  const [infoCliente, setInfoCliente] = useState({})
 
   const obtenerInfoCliente = (cli) => {
 
@@ -73,14 +69,13 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         setInfoCliente(data);
-        actFlag(true);
       })
       .catch((error) => {
         alert(error);
 
       });
   }
-  const editarCliente = (clienteEditado, id)=>{
+  const editarCliente = (clienteEditado, id) => {
 
     fetch(`${endpoint}/clientes/${id}`, {
       headers: { "Content-Type": "application/json; charset=utf-8" },
@@ -94,13 +89,13 @@ function App() {
       })
 
     })
-      .then(response => response.json())
-    actFlag(false)
+      .then(() => listarClientes())
+      .then(setInfoCliente({}))
   }
-  
+
   return (
     <div className='mainApp'>
-      <Form agregar={agregarCliente} infoCliente={infoCliente} handleEditar={editarCliente} flag={flag}/>
+      <Form agregar={agregarCliente} infoCliente={infoCliente} handleEditar={editarCliente} />
       <List lista={listaClientes} borrar={handleDelete} obtenerCliente={obtenerInfoCliente} />
     </div>
   )
