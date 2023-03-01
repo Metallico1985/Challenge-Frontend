@@ -6,8 +6,10 @@ import { useState, useEffect } from 'react'
 function App() {
 
   const activar = () => { setActivo(!activo) }
+  const [flag, setFlag] = useState(null)
+  const actFlag =()=>{setFlag(!flag)}
   const [activo, setActivo] = useState(true)
-  const endpoint = "https://crudcrud.com/api/2680ff2ebdbf46e09f1677a45fdaefc5"
+  const endpoint = "https://crudcrud.com/api/8b62be2331734712938eab35a1af47b7"
 
 
   useEffect(() => {
@@ -70,16 +72,35 @@ function App() {
     })
       .then((response) => response.json())
       .then((data) => {
-        setInfoCliente(data)
+        setInfoCliente(data);
+        actFlag(true);
       })
       .catch((error) => {
         alert(error);
 
       });
   }
+  const editarCliente = (clienteEditado, id)=>{
+
+    fetch(`${endpoint}/clientes/${id}`, {
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      method: 'PUT',
+      body: JSON.stringify({
+        nombre: clienteEditado.nombre,
+        apellido: clienteEditado.apellido,
+        rut: clienteEditado.rut,
+        telefono: clienteEditado.telefono,
+        tipo: clienteEditado.tipo
+      })
+
+    })
+      .then(response => response.json())
+    actFlag(false)
+  }
+  
   return (
     <div className='mainApp'>
-      <Form agregar={agregarCliente} infoForm={infoCliente} />
+      <Form agregar={agregarCliente} infoCliente={infoCliente} handleEditar={editarCliente} flag={flag}/>
       <List lista={listaClientes} borrar={handleDelete} obtenerCliente={obtenerInfoCliente} />
     </div>
   )

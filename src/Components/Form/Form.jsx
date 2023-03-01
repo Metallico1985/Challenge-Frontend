@@ -24,22 +24,25 @@ function Form(props) {
   const handleTelefono = (e) => { setTelefono(e.target.value) }
   const handleTipo = (e) => { setTipo(e.target.value) }
   const handleSubmit = (e) => { e.preventDefault(); props.agregar(cliente); }
+  const clienteEditable = props.infoCliente
 
   return (
     <div className='mainForm'>
       <div className='formContainer'>
         <h1>Ingreso Clientes</h1>
         <form onSubmit={handleSubmit} className='formIngreso'>
-          <input DefaultValue={props.infoForm ? props.infoForm.nombre : null} onChange={handleNombre} type="text" placeholder='Nombre' />
-          <input DefaultValue={props.infoForm ? props.infoForm.apellido : null} onChange={handleApellido} type="text" placeholder='Apellido' />
-          <input DefaultValue={props.infoForm ? props.infoForm.rut : null} onChange={handleRut} type="text" placeholder='Rut' />
-          <input DefaultValue={props.infoForm ? props.infoForm.telefono : null} onChange={handleTelefono} type="text" placeholder='Telefono' />
-          <select DefaultValue={props.infoForm ? props.infoForm.tipo : null} onChange={handleTipo} name='posiciones'>
+          <input defaultValue={props.infoCliente ? clienteEditable.nombre : ""} onChange={()=>handleNombre} type="text" placeholder='Nombre' required/>
+          <input defaultValue={props.infoCliente ? clienteEditable.apellido : ""} onChange={handleApellido} type="text" placeholder='Apellido' required/>
+          <input defaultValue={props.infoCliente ? clienteEditable.rut : ""} onChange={handleRut} type="text" placeholder='Rut' required/>
+          <input defaultValue={props.infoCliente ? clienteEditable.telefono : ""} onChange={handleTelefono} type="text" placeholder='Telefono' required/>
+          <select defaultValue={props.infoCliente ? clienteEditable.tipo : ""} onChange={handleTipo} name='posiciones' >
             <option disabled selected >Tipo Cliente</option>
             <option value="usuario">Usuario</option>
             <option value="empresa">Empresa</option>
           </select>
           <button type='submit'>Registrar</button>
+          {props.flag?<button type='submit' className='btnEditar' onClick={()=>props.handleEditar(clienteEditable, clienteEditable._id)} >Editar</button>:<></>}
+          
         </form>
       </div>
     </div>
