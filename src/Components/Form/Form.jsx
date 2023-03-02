@@ -16,13 +16,6 @@ function Form(props) {
     setCliente(props.infoCliente);
 }, [props.infoCliente])
 
-  // const handleNombre = (e) => { setNombre(e.target.value) };
-  // const handleApellido = (e) => { setApellido(e.target.value) }
-  // const handleRut = (e) => { setRut(e.target.value) }
-  // const handleTelefono = (e) => { setTelefono(e.target.value) }
-  // const handleTipo = (e) => { setTipo(e.target.value) }
-  // const handleSubmit = (e) => { e.preventDefault(); props.agregar(cliente); }
-  // const clienteEditable = props.infoCliente
   const handleChange = evt => {
     const name = evt.target.name;
     const value = evt.target.value;
@@ -52,8 +45,8 @@ function Form(props) {
           <input name="telefono" value={cliente.telefono || ''} onChange={handleChange} type="text" placeholder='Telefono' required/>
           <select name="tipo" value={cliente.tipo || ''} onChange={handleChange} >
             <option disabled selected value=''>Tipo Cliente</option>
-            <option value="usuario">Usuario</option>
-            <option value="empresa">Empresa</option>
+            <option value="Consumidor final">Consumidor final</option>
+            <option value="Empresa">Empresa</option>
           </select>
           {cliente._id
             ? <button type='submit' className='btnEditar'>Editar</button>

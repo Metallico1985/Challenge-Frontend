@@ -1,5 +1,4 @@
 .encabezados{
-   /* display: flex; */
    display: grid;
    grid-template-areas: "nombre apellido telefono rut tipo algo algo";
    gap: 1rem;

@@ -21,8 +21,8 @@ function List(props) {
                         <div className='celda telefono'>{item.telefono}</div>
                         <div className='celda rut'>{item.rut}</div>
                         <div className='celda tipo'>{item.tipo}</div>
-                        <button onClick={() => props.obtenerCliente(item)}>Select</button>
-                        <button onClick={() => props.borrar(item._id)}>Borrar</button>
+                        <button className='btnSelect' onClick={() => props.obtenerCliente(item)}>Select</button>
+                        <button className='btnBorrar' onClick={() => props.borrar(item._id)}>Borrar</button>
                     </div>
                 )
                 )}
